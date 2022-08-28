@@ -18,11 +18,11 @@ class ConsumedFoodsController extends Controller
     public function index(Request $request): JsonResponse
     {
         $foods = ConsumedFood::where('user_id', $request->user()->id)
-            ->whereDate('created_at', $request->user()->today())
+            ->whereBetween('created_at', [$request->user()->startOfDayUtc(), $request->user()->endOfDayUtc()])
             ->get();
 
         $calories_burned = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereDate('created_at', $request->user()->today())
+            ->whereBetween('created_at', [$request->user()->startOfDayUtc(), $request->user()->endOfDayUtc()])
             ->first();
 
         return response()->json([

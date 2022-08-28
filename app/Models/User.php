@@ -47,9 +47,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function today()
+    /**
+     * Returns a carbon instance of the start of day.
+     *
+     * @return Carbon
+     */
+    public function startOfDayUtc(): Carbon
     {
-        return now()->addHours(14);
+        return now()->subHours(10);
+    }
+
+    /**
+     * Returns a carbon instance 24 hours after the start of
+     * day utc method.
+     *
+     * @return Carbon
+     */
+    public function endOfDayUtc(): Carbon
+    {
+        return $this->startOfDayUtc()->addHours(24);
     }
 
     /**

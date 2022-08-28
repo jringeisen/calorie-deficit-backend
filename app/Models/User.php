@@ -49,9 +49,7 @@ class User extends Authenticatable
 
     public function today()
     {
-        return Carbon::parse(now()->timezone('Pacific/Honolulu'))
-            ->addHours(14)
-            ->timezone('UTC');
+        return now()->addHours(14);
     }
 
     /**

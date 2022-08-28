@@ -20,7 +20,7 @@ class OverviewController extends Controller
     public function __invoke(Request $request)
     {
         $burned = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereDate('created_at', now()->timezone('Pacific/Honolulu'))
+            ->whereDate('created_at', now()->timezone('Pacific/Honolulu')->toDateString())
             ->first();
 
         $foods = ConsumedFood::select('user_id', 'total_calories', DB::raw('DATE(created_at) as date'))

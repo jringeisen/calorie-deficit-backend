@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use App\Models\CaloriesBurned;
 use App\Models\ConsumedFood;
 use Illuminate\Http\Request;
+use App\Models\CaloriesBurned;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 
 class ConsumedFoodsController extends Controller
 {
@@ -14,7 +15,7 @@ class ConsumedFoodsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         $foods = ConsumedFood::where('user_id', $request->user()->id)
             ->whereDate('created_at', $request->user()->today())
@@ -37,7 +38,7 @@ class ConsumedFoodsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
         $food = $request->user()->consumedFoods()->create([
             'servings' => $request->servings,
@@ -50,36 +51,34 @@ class ConsumedFoodsController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  ConsumedFood  $consumed_food
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, ConsumedFood $consumed_food): JsonResponse
     {
-        //
+        $food = $consumed_food->update([
+            'servings' => $request->servings,
+            'name' => $request->name,
+            'calories' => $request->calories,
+            'total_calories' => $request->calories * $request->servings,
+        ]);
+
+        return response()->json($food);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  ConsumedFood  $consumed_food
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(ConsumedFood $consumed_food): JsonResponse
     {
-        //
+        $consumed_food->delete();
+
+        return response()->json([], 204);
     }
 }

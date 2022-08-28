@@ -32,7 +32,7 @@ class CaloriesBurnedController extends Controller
     public function store(CaloriesBurnedRequest $request)
     {
         $calorie = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereDate('created_at', $request()->user()->today())
+            ->whereDate('created_at', $request->user()->today())
             ->first();
 
         $calories = CaloriesBurned::updateOrCreate(

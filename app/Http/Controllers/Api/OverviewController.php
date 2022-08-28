@@ -25,6 +25,7 @@ class OverviewController extends Controller
 
         $foods = ConsumedFood::select('user_id', 'total_calories', DB::raw('DATE(created_at) as date'))
             ->where('user_id', $request->user()->id)
+            ->orderBy('date', 'desc')
             ->get()
             ->groupBy('date')
             ->map(function ($food, $key) use ($burned) {

@@ -26,7 +26,7 @@ class OverviewController extends Controller
             ->groupBy('date')
             ->map(function ($food, $key) {
                 $burned = CaloriesBurned::where('user_id', auth()->id())
-                    ->whereDate('created_at', Carbon::parse($key)->timezone('Pacific/Honolulu'))
+                    ->whereDate('created_at', Carbon::parse($key))
                     ->first();
 
                 return [

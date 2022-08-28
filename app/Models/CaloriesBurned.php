@@ -16,14 +16,4 @@ class CaloriesBurned extends Model
         'user_id',
         'calories',
     ];
-
-    /**
-     *
-     * @param string $value
-     * @return void
-     */
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timezone('Pacific/Honolulu');
-    }
 }

@@ -17,7 +17,7 @@ class CaloriesBurnedController extends Controller
     public function index(Request $request)
     {
         $calorie = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereDate('created_at', now())
+            ->whereDate('created_at', now()->timezone('Pacific/Honolulu'))
             ->first();
 
         return response()->json($calorie, 200);
@@ -32,7 +32,7 @@ class CaloriesBurnedController extends Controller
     public function store(CaloriesBurnedRequest $request)
     {
         $calorie = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereDate('created_at', now())
+            ->whereDate('created_at', now()->timezone('Pacific/Honolulu'))
             ->first();
 
         $calories = CaloriesBurned::updateOrCreate(

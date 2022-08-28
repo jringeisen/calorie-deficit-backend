@@ -26,14 +26,4 @@ class ConsumedFood extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    /**
-     *
-     * @param string $value
-     * @return void
-     */
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->timezone('Pacific/Honolulu');
-    }
 }

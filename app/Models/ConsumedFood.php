@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ConsumedFood extends Model
 {
@@ -24,5 +25,15 @@ class ConsumedFood extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Pacific/Honolulu');
     }
 }

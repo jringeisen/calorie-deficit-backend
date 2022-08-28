@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ConsumedFood;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    dd(ConsumedFood::first()->created_at);
+
     return ['Laravel' => app()->version()];
 });
 

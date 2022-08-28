@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CaloriesBurned extends Model
 {
@@ -15,4 +16,14 @@ class CaloriesBurned extends Model
         'user_id',
         'calories',
     ];
+
+    /**
+     *
+     * @param string $value
+     * @return void
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Pacific/Honolulu');
+    }
 }

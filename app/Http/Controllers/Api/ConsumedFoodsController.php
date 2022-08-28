@@ -17,11 +17,11 @@ class ConsumedFoodsController extends Controller
     public function index(Request $request)
     {
         $foods = ConsumedFood::where('user_id', $request->user()->id)
-            ->whereDate('created_at', now())
+            ->whereDate('created_at', now()->timezone('Pacific/Honolulu'))
             ->get();
 
         $calories_burned = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereDate('created_at', now())
+            ->whereDate('created_at', now()->timezone('Pacific/Honolulu'))
             ->first();
 
         return response()->json([

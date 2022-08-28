@@ -36,7 +36,7 @@ class CaloriesBurnedController extends Controller
             ->first();
 
         $calories = CaloriesBurned::updateOrCreate(
-            ['user_id' => $request->user()->id, 'created_at' => $calorie->created_at ?? null ],
+            ['user_id' => $request->user()->id, 'created_at' => $calorie->created_at ?? null],
             ['calories' => $request->calories]
         );
 

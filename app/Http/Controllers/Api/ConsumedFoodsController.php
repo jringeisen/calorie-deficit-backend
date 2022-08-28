@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Models\CaloriesBurned;
 use App\Models\ConsumedFood;
 use Illuminate\Http\Request;
-use App\Models\CaloriesBurned;
-use App\Http\Controllers\Controller;
 
 class ConsumedFoodsController extends Controller
 {

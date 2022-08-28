@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
-use App\Models\ConsumedFood;
-use Illuminate\Http\Request;
-use App\Models\CaloriesBurned;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\CaloriesBurned;
+use App\Models\ConsumedFood;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OverviewController extends Controller
 {

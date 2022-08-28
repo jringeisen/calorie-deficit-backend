@@ -24,7 +24,7 @@ class CaloriesBurnedRequest extends FormRequest
     public function rules()
     {
         return [
-            'calories' => 'required|numeric'
+            'calories' => 'required|numeric',
         ];
     }
 }

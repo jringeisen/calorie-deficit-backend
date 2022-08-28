@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ConsumedFood extends Model
 {
@@ -19,7 +18,6 @@ class ConsumedFood extends Model
     ];
 
     /**
-     *
      * @return BelongsTo
      */
     public function user(): BelongsTo

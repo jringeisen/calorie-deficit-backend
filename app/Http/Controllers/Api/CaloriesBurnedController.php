@@ -17,7 +17,7 @@ class CaloriesBurnedController extends Controller
     public function index(Request $request)
     {
         $calorie = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereBetween('created_at', request()->user()->nowStartAndEndUtc())
+            ->whereBetween('created_at', $request->user()->nowStartAndEndUtc())
             ->first();
 
         return response()->json($calorie, 200);

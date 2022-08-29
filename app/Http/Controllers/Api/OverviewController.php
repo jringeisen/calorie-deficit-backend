@@ -30,7 +30,7 @@ class OverviewController extends Controller
                     ->first();
 
                 return [
-                    'date' => Carbon::parse($key)->timezone('Pacific/Honolulu')->toFormattedDateString(),
+                    'date' => Carbon::parse($key, 'Pacific/Honolulu')->toFormattedDateString(),
                     'deficit' => $food->sum('total_calories') - $burned?->calories,
                 ];
             });

@@ -55,8 +55,8 @@ class User extends Authenticatable
     public function nowStartAndEndUtc(): array
     {
         return [
-            Carbon::parse(now()->startOfDay(), 'Pacific/Honolulu')->setTimezone('UTC'),
-            Carbon::parse(now()->endOfDay(), 'Pacific/Honolulu')->setTimezone('UTC')
+            now()->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC'),
+            now()->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC')
         ];
     }
 

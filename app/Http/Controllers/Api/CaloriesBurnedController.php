@@ -32,7 +32,7 @@ class CaloriesBurnedController extends Controller
     public function store(CaloriesBurnedRequest $request)
     {
         $calorie = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereBetween('created_at', [$request->user()->startOfDayUtc(), $request->user()->endOfDayUtc()])
+            ->whereBetween('created_at', $request->user()->nowStartAndEndUtc())
             ->first();
 
         $calories = CaloriesBurned::updateOrCreate(

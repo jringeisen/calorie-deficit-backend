@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Models\ConsumedFood;
 use Illuminate\Http\Request;
 use App\Models\CaloriesBurned;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 
 class ConsumedFoodsController extends Controller
 {
@@ -18,11 +18,11 @@ class ConsumedFoodsController extends Controller
     public function index(Request $request): JsonResponse
     {
         $foods = ConsumedFood::where('user_id', $request->user()->id)
-            ->whereBetween('created_at', [$request->user()->startOfDayUtc(), $request->user()->endOfDayUtc()])
+            ->whereBetween('created_at', $request->user()->nowStartAndEndUtc())
             ->get();
 
         $calories_burned = CaloriesBurned::where('user_id', $request->user()->id)
-            ->whereBetween('created_at', [$request->user()->startOfDayUtc(), $request->user()->endOfDayUtc()])
+            ->whereBetween('created_at', $request->user()->nowStartAndEndUtc())
             ->first();
 
         return response()->json([

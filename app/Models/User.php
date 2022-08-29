@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,24 +47,16 @@ class User extends Authenticatable
     ];
 
     /**
-     * Returns a carbon instance of the start of day.
+     * Returns an array of the start and end of today.
      *
-     * @return Carbon
+     * @return array
      */
-    public function startOfDayUtc(): Carbon
+    public function nowStartAndEndUtc(): array
     {
-        return now()->subHours(10);
-    }
-
-    /**
-     * Returns a carbon instance 24 hours after the start of
-     * day utc method.
-     *
-     * @return Carbon
-     */
-    public function endOfDayUtc(): Carbon
-    {
-        return $this->startOfDayUtc()->addHours(24);
+        return [
+            now()->startOfDay(),
+            now()->endOfDay()
+        ];
     }
 
     /**

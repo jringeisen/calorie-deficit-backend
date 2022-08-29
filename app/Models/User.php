@@ -54,8 +54,8 @@ class User extends Authenticatable
     public function nowStartAndEndUtc(): array
     {
         return [
-            now()->startOfDay(),
-            now()->endOfDay()
+            now()->subHours(10)->startOfDay(),
+            now()->subHours(10)->endOfDay()
         ];
     }
 

@@ -40,7 +40,10 @@ class OverviewController extends Controller
                         'deficit' => $food->sum('total_calories') - $burned?->calories,
                     ];
                 }
-            })->unique()->groupBy('date');
+            })
+            ->unique()
+            ->groupBy('date')
+            ->flatten(1);
 
         return response()->json($foods, 200);
     }

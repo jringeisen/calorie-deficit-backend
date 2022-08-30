@@ -24,7 +24,7 @@ class OverviewController extends Controller
             ->where('user_id', $request->user()->id)
             ->orderBy('created_at', 'desc')
             ->get()
-            ->groupBy(function ($food, $key) {
+            ->groupBy(function ($food) {
                 $start = $food->created_at->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC');
                 $end = $food->created_at->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC');
 
@@ -34,8 +34,11 @@ class OverviewController extends Controller
             })
             ->map(function ($items) {
                 return $items->map(function ($food) use ($items) {
+                    $start = $food->created_at->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC');
+                    $end = $food->created_at->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC');
+
                     $burned = CaloriesBurned::where('user_id', auth()->id())
-                        ->whereBetween('created_at', request()->user()->nowStartAndEndUtc())
+                        ->whereBetween('created_at', [$start, $end])
                         ->first();
 
                     return [

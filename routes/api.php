@@ -28,4 +28,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/consumed_foods', \App\Http\Controllers\Api\ConsumedFoodsController::class);
 
     Route::get('/overview', \App\Http\Controllers\Api\OverviewController::class);
+    Route::get('/food-list', \App\Http\Controllers\Api\Actions\GetFoodListController::class);
 });

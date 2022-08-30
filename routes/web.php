@@ -17,4 +17,7 @@ Route::get('/', function () {
     return ['Laravel' => app()->version()];
 });
 
+Route::get('/overview', \App\Http\Controllers\Api\OverviewController::class);
+
+
 require __DIR__ . '/auth.php';

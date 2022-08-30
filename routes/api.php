@@ -27,5 +27,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/calories_burned', \App\Http\Controllers\Api\CaloriesBurnedController::class);
     Route::apiResource('/consumed_foods', \App\Http\Controllers\Api\ConsumedFoodsController::class);
 
-    // Route::get('/overview', \App\Http\Controllers\Api\OverviewController::class);
+    Route::get('/overview', \App\Http\Controllers\Api\OverviewController::class);
 });

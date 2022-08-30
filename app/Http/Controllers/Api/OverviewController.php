@@ -20,30 +20,30 @@ class OverviewController extends Controller
      */
     public function __invoke(Request $request)
     {
-        Auth::loginUsingId(1);
-
         $foods = ConsumedFood::select('user_id', 'total_calories', 'created_at')
             ->where('user_id', $request->user()->id)
             ->orderBy('created_at', 'desc')
             ->get()
-            ->map(function ($food) {
+            ->groupBy(function ($food, $key) {
                 $start = $food->created_at->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC');
                 $end = $food->created_at->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC');
 
                 if ($food->created_at->between($start, $end)) {
+                    return $food->created_at->timezone('Pacific/Honolulu')->toDateString();
+                }
+            })
+            ->map(function ($items) {
+                return $items->map(function ($food) use ($items) {
                     $burned = CaloriesBurned::where('user_id', auth()->id())
-                        ->whereDate('created_at', Carbon::parse($food->created_at))
+                        ->whereBetween('created_at', request()->user()->nowStartAndEndUtc())
                         ->first();
 
                     return [
-                        'date' => Carbon::parse($food->created_at, 'Pacific/Honolulu')->toDateString(),
-                        'deficit' => $food->sum('total_calories') - $burned?->calories,
+                        'date' => $food->created_at->timezone('Pacific/Honolulu')->toDateString(),
+                        'deficit' => $items->sum('total_calories') - $burned?->calories,
                     ];
-                }
-            })
-            ->unique()
-            ->groupBy('date')
-            ->flatten(1);
+                })->unique();
+            })->flatten(1);
 
         return response()->json($foods, 200);
     }

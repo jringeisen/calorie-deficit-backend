@@ -18,7 +18,8 @@ class GetFoodListController extends Controller
     {
         $foods = ConsumedFood::where('user_id', auth()->id())
             ->where('name', 'like', '%' . $request->name . '%')
-            ->get();
+            ->get()
+            ->unique('name');
 
         return response()->json($foods, 200);
     }

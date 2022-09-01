@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Carbon;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,6 +24,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'timezone',
         'password',
     ];
 
@@ -55,8 +55,8 @@ class User extends Authenticatable
     public function nowStartAndEndUtc(): array
     {
         return [
-            now()->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC'),
-            now()->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC')
+            $this->timezone ? now()->timezone($this->timezone)->startOfDay()->timezone('UTC') : now()->startOfDay(),
+            $this->timezone ? now()->timezone($this->timezone)->endOfDay()->timezone('UTC') : now()->endOfDay(),
         ];
     }
 

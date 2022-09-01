@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
-use Carbon\Carbon;
 use App\Models\ConsumedFood;
 use Illuminate\Http\Request;
 use App\Models\CaloriesBurned;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 
 class OverviewController extends Controller
 {
@@ -25,24 +22,38 @@ class OverviewController extends Controller
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy(function ($food) {
-                $start = $food->created_at->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC');
-                $end = $food->created_at->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC');
+                $start = request()->user()->timezone
+                    ? $food->created_at->timezone(request()->user()->timezone)->startOfDay()->timezone('UTC')
+                    : $food->created_at->startOfDay();
+
+                $end = request()->user()->timezone
+                    ? $food->created_at->timezone(request()->user()->timezone)->endOfDay()->timezone('UTC')
+                    : $food->created_at->endOfDay();
 
                 if ($food->created_at->between($start, $end)) {
-                    return $food->created_at->timezone('Pacific/Honolulu')->toDateString();
+                    return request()->user()->timezone
+                        ? $food->created_at->timezone(request()->user()->timezone)->toDateString()
+                        : $food->created_at->toDateString();
                 }
             })
             ->map(function ($items) {
                 return $items->map(function ($food) use ($items) {
-                    $start = $food->created_at->timezone('Pacific/Honolulu')->startOfDay()->timezone('UTC');
-                    $end = $food->created_at->timezone('Pacific/Honolulu')->endOfDay()->timezone('UTC');
+                    $start = request()->user()->timezone
+                        ? $food->created_at->timezone(request()->user()->timezone)->startOfDay()->timezone('UTC')
+                        : $food->created_at->startOfDay();
+
+                    $end = request()->user()->timezone
+                        ? $food->created_at->timezone(request()->user()->timezone)->endOfDay()->timezone('UTC')
+                        : $food->created_at->endOfDay();
 
                     $burned = CaloriesBurned::where('user_id', auth()->id())
                         ->whereBetween('created_at', [$start, $end])
                         ->first();
 
                     return [
-                        'date' => $food->created_at->timezone('Pacific/Honolulu')->toDateString(),
+                        'date' => request()->user()->timezone
+                            ? $food->created_at->timezone(request()->user()->timezone)->toDateString()
+                            : $food->created_at->toDateString(),
                         'deficit' => $items->sum('total_calories') - $burned?->calories,
                     ];
                 })->unique();

@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +29,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/overview', \App\Http\Controllers\Api\OverviewController::class);
     Route::get('/food-list', \App\Http\Controllers\Api\Actions\GetFoodListController::class);
+
+    Route::apiResource('/timezones', \App\Http\Controllers\Api\TimezoneController::class);
 });

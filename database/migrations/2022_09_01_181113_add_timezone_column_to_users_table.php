@@ -12,8 +12,8 @@ return new class () extends Migration {
      */
     public function up()
     {
-        Schema::table('consumed_food', function (Blueprint $table) {
-            $table->float('servings')->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('timezone')->after('email')->nullable();
         });
     }
 
@@ -24,8 +24,8 @@ return new class () extends Migration {
      */
     public function down()
     {
-        Schema::table('consumed_food', function (Blueprint $table) {
-            $table->integer('servings')->change();
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('timezone');
         });
     }
 };

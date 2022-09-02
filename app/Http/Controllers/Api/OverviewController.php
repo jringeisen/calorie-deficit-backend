@@ -19,6 +19,7 @@ class OverviewController extends Controller
     {
         $foods = ConsumedFood::select('user_id', 'total_calories', 'created_at')
             ->where('user_id', $request->user()->id)
+            ->whereBetween('created_at', $request->user()->lastThirtyDaysUtc())
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy(function ($food) {

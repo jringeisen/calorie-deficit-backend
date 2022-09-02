@@ -26,6 +26,12 @@ class AuthTokenController extends Controller
             ]);
         }
 
+        if ($user->tokens) {
+            foreach ($user->tokens as $token) {
+                $token->delete();
+            }
+        }
+
         return $user->createToken($request->device_name)->plainTextToken;
     }
 }

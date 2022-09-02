@@ -61,6 +61,20 @@ class User extends Authenticatable
     }
 
     /**
+     * Returns an array that includes the current date
+     * and thirty days ago.
+     *
+     * @return array
+     */
+    public function lastThirtyDaysUtc(): array
+    {
+        return [
+            $this->timezone ? now()->timezone($this->timezone)->subDays(30)->timezone('UTC') : now()->subDays(30),
+            $this->timezone ? now()->timezone($this->timezone)->timezone('UTC') : now()
+        ];
+    }
+
+    /**
      * @return HasMany
      */
     public function consumedFoods(): HasMany

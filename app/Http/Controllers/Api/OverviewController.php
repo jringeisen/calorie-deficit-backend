@@ -55,7 +55,9 @@ class OverviewController extends Controller
                         'date' => request()->user()->timezone
                             ? $food->created_at->timezone(request()->user()->timezone)->toDateString()
                             : $food->created_at->toDateString(),
-                        'deficit' => $items->sum('total_calories') - $burned?->calories,
+                        'consumed' => $items->sum('total_calories'),
+                        'burned' => $burned?->calories ?? 2000,
+                        'deficit' => $items->sum('total_calories') - $burned?->calories ?? 2000,
                     ];
                 })->unique();
             })->flatten(1);
